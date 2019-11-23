@@ -1,9 +1,10 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import store from './app.js';
 
 const Pagination = props => {
-  console.log('Rendering Pagination');
-  console.log('PROPS IN PAGINATION ', props);
+  const state = store.getState();
+  console.log('Pagination HAS STATE =  ', state);
   return (
     <Router>
       <nav
@@ -15,15 +16,18 @@ const Pagination = props => {
             className="page-item"
             onClick={() => {
               if (Number(props.state.currentPage) === 1) return;
-              props.changePage(Number(props.state.currentPage) - 1);
+              store.dispatch({
+                employees: state.employees,
+                currentPage: state.currentPage - 1
+              });
             }}
           >
             <Link
               class="page-link"
               to={
-                Number(props.state.currentPage) === 1
+                Number(state.currentPage) === 1
                   ? '/#1'
-                  : `/#${Number(props.state.currentPage) - 1}`
+                  : `/#${Number(state.currentPage) - 1}`
               }
             >
               Previous
@@ -32,7 +36,10 @@ const Pagination = props => {
           <li
             className="page-item"
             onClick={() => {
-              props.changePage(1);
+              store.dispatch({
+                employees: state.employees,
+                currentPage: 1
+              });
             }}
           >
             <Link to="/#1" class="page-link">
@@ -42,7 +49,10 @@ const Pagination = props => {
           <li
             className="page-item"
             onClick={() => {
-              props.changePage(2);
+              store.dispatch({
+                employees: state.employees,
+                currentPage: 2
+              });
             }}
           >
             <Link to="/#2" class="page-link">
@@ -52,7 +62,10 @@ const Pagination = props => {
           <li
             className="page-item"
             onClick={() => {
-              props.changePage(3);
+              store.dispatch({
+                employees: state.employees,
+                currentPage: 3
+              });
             }}
           >
             <Link to="/#3" class="page-link">
@@ -62,7 +75,10 @@ const Pagination = props => {
           <li
             className="page-item"
             onClick={() => {
-              props.changePage(4);
+              store.dispatch({
+                employees: state.employees,
+                currentPage: 4
+              });
             }}
           >
             <Link to="/#4" class="page-link">
@@ -72,7 +88,10 @@ const Pagination = props => {
           <li
             className="page-item"
             onClick={() => {
-              props.changePage(5);
+              store.dispatch({
+                employees: state.employees,
+                currentPage: 5
+              });
             }}
           >
             <Link to="/#5" class="page-link">
@@ -82,7 +101,10 @@ const Pagination = props => {
           <li
             className="page-item"
             onClick={() => {
-              props.changePage(6);
+              store.dispatch({
+                employees: state.employees,
+                currentPage: 6
+              });
             }}
           >
             <Link to="/#6" class="page-link">
@@ -92,7 +114,10 @@ const Pagination = props => {
           <li
             className="page-item"
             onClick={() => {
-              props.changePage(7);
+              store.dispatch({
+                employees: state.employees,
+                currentPage: 7
+              });
             }}
           >
             <Link to="/#7" class="page-link">

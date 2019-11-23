@@ -21,8 +21,8 @@ const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'changePage':
       return {
-        employees: action.data.emplyees,
-        currentPage: action.data.changePage
+        employees: action.data.employees,
+        currentPage: action.data.currentPage
       };
     default:
       return state;
@@ -62,18 +62,6 @@ class App extends React.Component {
   }
   componentDidMount() {
     this.unsubscribe = store.subscribe(() => this.setState(store.getState()));
-    console.log(`Getting employees for ${this.state.currentPage}`);
-    axios
-      .get(`/api/employees/${Number(this.state.currentPage) - 1}`)
-      .then(res => {
-        console.log(res.data.rows);
-        const sortedEmployees = res.data.rows.sort((a, b) => {
-          if (a.firstName < b.firstName) return -1;
-          if (a.firstName > b.firstName) return 1;
-          return 0;
-        });
-        this.setState({ employees: sortedEmployees });
-      });
   }
   render() {
     console.log('Rendering App with state = ', this.state);
@@ -86,4 +74,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export { store, App };
