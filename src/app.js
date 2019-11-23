@@ -35,15 +35,15 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = store.getState();
-    // this.changePage = page => {
-    //   [...document.getElementsByClassName('page-link')].forEach(link => {
-    //     console.log(link.classList.value.indexOf('page-link'));
-    //     if (link.innerHTML === page.toString()) {
-    //       link.classList.add('active');
-    //     } else {
-    //       link.classList.remove('active');
-    //     }
-    //   });
+    this.changePage = page => {
+      [...document.getElementsByClassName('page-link')].forEach(link => {
+        console.log(link.classList.value.indexOf('page-link'));
+        if (link.innerHTML === page.toString()) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
       const componentContext = this;
       console.log('CHANGING PAGE IN APP TO ', page);
       axios.get(`/api/employees/${Number(page) - 1}`).then(res => {
