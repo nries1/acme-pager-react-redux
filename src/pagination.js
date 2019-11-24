@@ -1,8 +1,28 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import store from './app.js';
+import axios from 'axios';
+import { store } from './app.js';
 
-const Pagination = props => {
+const getEmployeesAndDispatch = page => {
+  console.log('getting employees for page ', page);
+  axios.get(`api/employees/${page}`).then(res => {
+    console.log('EMPLOYEES = ', res.data.rows);
+    store.dispatch({
+      type: 'changePage',
+      data: {
+        employees: res.data.rows,
+        currentPage: page
+      }
+    });
+  });
+};
+
+const toggleActiveLinks = link => {
+  [...document.getElementsByClassName('active')][0].classList.toggle('active');
+  link.target.classList.add('active');
+};
+
+const Pagination = () => {
   const state = store.getState();
   console.log('Pagination HAS STATE =  ', state);
   return (
@@ -15,11 +35,8 @@ const Pagination = props => {
           <li
             className="page-item"
             onClick={() => {
-              if (Number(props.state.currentPage) === 1) return;
-              store.dispatch({
-                employees: state.employees,
-                currentPage: state.currentPage - 1
-              });
+              if (Number(state.currentPage) === 1) return;
+              getEmployeesAndDispatch(Number(state.currentPage) - 1);
             }}
           >
             <Link
@@ -34,12 +51,10 @@ const Pagination = props => {
             </Link>
           </li>
           <li
-            className="page-item"
-            onClick={() => {
-              store.dispatch({
-                employees: state.employees,
-                currentPage: 1
-              });
+            className="page-item active"
+            onClick={e => {
+              toggleActiveLinks(e);
+              getEmployeesAndDispatch(0);
             }}
           >
             <Link to="/#1" class="page-link">
@@ -48,11 +63,9 @@ const Pagination = props => {
           </li>
           <li
             className="page-item"
-            onClick={() => {
-              store.dispatch({
-                employees: state.employees,
-                currentPage: 2
-              });
+            onClick={e => {
+              toggleActiveLinks(e);
+              getEmployeesAndDispatch(1);
             }}
           >
             <Link to="/#2" class="page-link">
@@ -61,11 +74,9 @@ const Pagination = props => {
           </li>
           <li
             className="page-item"
-            onClick={() => {
-              store.dispatch({
-                employees: state.employees,
-                currentPage: 3
-              });
+            onClick={e => {
+              toggleActiveLinks(e);
+              getEmployeesAndDispatch(2);
             }}
           >
             <Link to="/#3" class="page-link">
@@ -74,11 +85,9 @@ const Pagination = props => {
           </li>
           <li
             className="page-item"
-            onClick={() => {
-              store.dispatch({
-                employees: state.employees,
-                currentPage: 4
-              });
+            onClick={e => {
+              toggleActiveLinks(e);
+              getEmployeesAndDispatch(3);
             }}
           >
             <Link to="/#4" class="page-link">
@@ -87,11 +96,9 @@ const Pagination = props => {
           </li>
           <li
             className="page-item"
-            onClick={() => {
-              store.dispatch({
-                employees: state.employees,
-                currentPage: 5
-              });
+            onClick={e => {
+              toggleActiveLinks(e);
+              getEmployeesAndDispatch(4);
             }}
           >
             <Link to="/#5" class="page-link">
@@ -100,11 +107,9 @@ const Pagination = props => {
           </li>
           <li
             className="page-item"
-            onClick={() => {
-              store.dispatch({
-                employees: state.employees,
-                currentPage: 6
-              });
+            onClick={e => {
+              toggleActiveLinks(e);
+              getEmployeesAndDispatch(5);
             }}
           >
             <Link to="/#6" class="page-link">
@@ -113,11 +118,9 @@ const Pagination = props => {
           </li>
           <li
             className="page-item"
-            onClick={() => {
-              store.dispatch({
-                employees: state.employees,
-                currentPage: 7
-              });
+            onClick={e => {
+              toggleActiveLinks(e);
+              getEmployeesAndDispatch(6);
             }}
           >
             <Link to="/#7" class="page-link">
@@ -127,15 +130,15 @@ const Pagination = props => {
           <li
             className="page-item"
             onClick={() => {
-              if (Number(props.state.currentPage) === 7) return;
-              props.changePage(Number(props.state.currentPage) + 1);
+              if (Number(state.currentPage) === 6) return;
+              getEmployeesAndDispatch(Number(state.currentPage + 1));
             }}
           >
             <Link
               to={
-                Number(props.state.currentPage) === 7
+                Number(state.currentPage) === 7
                   ? '/#7'
-                  : `/#${Number(props.state.currentPage) + 1}`
+                  : `/#${Number(state.currentPage) + 1}`
               }
               className="page-link"
             >
