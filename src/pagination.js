@@ -11,15 +11,16 @@ const getEmployeesAndDispatch = page => {
       type: 'changePage',
       data: {
         employees: res.data.rows,
-        currentPage: page
+        currentPage: Number(page + 1)
       }
     });
   });
 };
 
 const toggleActiveLinks = link => {
+  console.log(link);
   [...document.getElementsByClassName('active')][0].classList.toggle('active');
-  link.target.classList.add('active');
+  link.target.parentNode.classList.add('active');
 };
 
 const Pagination = () => {
@@ -33,18 +34,23 @@ const Pagination = () => {
       >
         <ul className="pagination">
           <li
-            className="page-item"
+            className="page-item previous"
             onClick={() => {
               if (Number(state.currentPage) === 1) return;
-              getEmployeesAndDispatch(Number(state.currentPage) - 1);
+              const activeElement = [
+                ...document.getElementsByClassName('active')
+              ][0];
+              activeElement.previousSibling.classList.toggle('active');
+              activeElement.classList.toggle('active');
+              getEmployeesAndDispatch(Number(state.currentPage) - 2);
             }}
           >
             <Link
-              class="page-link"
+              class="page-link previous"
               to={
                 Number(state.currentPage) === 1
                   ? '/#1'
-                  : `/#${Number(state.currentPage) - 1}`
+                  : `/#${Number(state.currentPage - 1)}`
               }
             >
               Previous
@@ -52,6 +58,7 @@ const Pagination = () => {
           </li>
           <li
             className="page-item active"
+            id="page-link-1"
             onClick={e => {
               toggleActiveLinks(e);
               getEmployeesAndDispatch(0);
@@ -63,6 +70,7 @@ const Pagination = () => {
           </li>
           <li
             className="page-item"
+            id="page-link-2"
             onClick={e => {
               toggleActiveLinks(e);
               getEmployeesAndDispatch(1);
@@ -74,6 +82,7 @@ const Pagination = () => {
           </li>
           <li
             className="page-item"
+            id="page-link-3"
             onClick={e => {
               toggleActiveLinks(e);
               getEmployeesAndDispatch(2);
@@ -85,6 +94,7 @@ const Pagination = () => {
           </li>
           <li
             className="page-item"
+            id="page-link-4"
             onClick={e => {
               toggleActiveLinks(e);
               getEmployeesAndDispatch(3);
@@ -96,6 +106,7 @@ const Pagination = () => {
           </li>
           <li
             className="page-item"
+            id="page-link-5"
             onClick={e => {
               toggleActiveLinks(e);
               getEmployeesAndDispatch(4);
@@ -107,6 +118,7 @@ const Pagination = () => {
           </li>
           <li
             className="page-item"
+            id="page-link-6"
             onClick={e => {
               toggleActiveLinks(e);
               getEmployeesAndDispatch(5);
@@ -118,6 +130,7 @@ const Pagination = () => {
           </li>
           <li
             className="page-item"
+            id="page-link-7"
             onClick={e => {
               toggleActiveLinks(e);
               getEmployeesAndDispatch(6);
@@ -128,10 +141,15 @@ const Pagination = () => {
             </Link>
           </li>
           <li
-            className="page-item"
+            className="page-item next"
             onClick={() => {
-              if (Number(state.currentPage) === 6) return;
-              getEmployeesAndDispatch(Number(state.currentPage + 1));
+              if (Number(state.currentPage) === 7) return;
+              const activeElement = [
+                ...document.getElementsByClassName('active')
+              ][0];
+              activeElement.nextSibling.classList.toggle('active');
+              activeElement.classList.toggle('active');
+              getEmployeesAndDispatch(Number(state.currentPage));
             }}
           >
             <Link
